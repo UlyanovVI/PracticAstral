@@ -1,0 +1,15 @@
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.AssemblyInfoInputs.cache
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.AssemblyInfo.cs
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.csproj.CoreCompileInputs.cache
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.sourcelink.json
+C:\Users\UlyanovVI\PracticAstral\PeerA\bin\Debug\net10.0\PeerA.exe
+C:\Users\UlyanovVI\PracticAstral\PeerA\bin\Debug\net10.0\PeerA.deps.json
+C:\Users\UlyanovVI\PracticAstral\PeerA\bin\Debug\net10.0\PeerA.runtimeconfig.json
+C:\Users\UlyanovVI\PracticAstral\PeerA\bin\Debug\net10.0\PeerA.dll
+C:\Users\UlyanovVI\PracticAstral\PeerA\bin\Debug\net10.0\PeerA.pdb
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.dll
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\refint\PeerA.dll
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.pdb
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\PeerA.genruntimeconfig.cache
+C:\Users\UlyanovVI\PracticAstral\PeerA\obj\Debug\net10.0\ref\PeerA.dll
