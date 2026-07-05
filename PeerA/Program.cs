@@ -2,40 +2,33 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-const string peer_ip = "";
-int port = 0;
-int peer_port = 0;
-
-async Task<string> send_data(NetworkStream stream)
+async Task send_data(NetworkStream stream, string msg)
 {
-    string message = Console.ReadLine();
-    byte[] data = Encoding.UTF8.GetBytes(message);
-
-    if (data.Length > 1024)
-    {
-        Console.WriteLine($"Сообщение слишком длинное! Обрезаем до 1024 байт.");
-
-        // Обрезаем до 1024 байт
-        byte[] truncated = new byte[1024];
-        Array.Copy(data, truncated, 1024);
-        await stream.WriteAsync(truncated);
-    }
-    else
-    {
-        await stream.WriteAsync(data);
-    }
-    return message;
+    byte[] data = Encoding.UTF8.GetBytes(msg);
+    await stream.WriteAsync(data);
 }
 async Task<string> request_data(NetworkStream stream)
 {
     byte[] buffer = new byte[1024];
     int count = await stream.ReadAsync(buffer);
-    if (count == 0) return string.Empty;
+
+    if (count == 0)
+    {
+        return "";
+    }
+
     return Encoding.UTF8.GetString(buffer, 0, count);
 }
 
+int port = 0;
+int server_port = 0;
+
+/// ввод Ip, порта, порта клиента сервера и имени
+Console.WriteLine("Введите свое имя: ");
+string name = Console.ReadLine();
+
 Console.WriteLine("Введите IP: ");
-string peer_ip = Console.ReadLine();
+string ip = Console.ReadLine();
 
 try
 {
@@ -51,80 +44,91 @@ catch (Exception ex)
 
 try
 {
-    Console.WriteLine("Введите порт, к которому надо подключиться: ");
+    Console.WriteLine("Введите порт сервера, к которому надо подключиться: ");
     string input = Console.ReadLine();
-    peer_port = int.Parse(input);
+    server_port = int.Parse(input);
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Введите корректный порт к которому нужно подключиться! ({ex.Message})");
+    Console.WriteLine($"Введите корректный порт сервера! ({ex.Message})");
     return;
 }
 
-
 TcpListener listener = new TcpListener(IPAddress.Any, port);
 listener.Start();
-Console.WriteLine($"Слушаю порт {port}, подключаюсь к {peer_ip}:{peer_port}");
+Console.WriteLine($"Слушаю порт {port}, подключаюсь к {ip}:{server_port}");
 
-TcpClient outgoing = new TcpClient();
-for (int i = 0; i < 10; i++)
-{
-    try
-    {
-        await outgoing.ConnectAsync(peer_ip, peer_port);
-        break;
-    }
-    catch
-    {
-        Console.WriteLine($"Пир пока не отвечает");
-        await Task.Delay(1000);
-    }
-}
 
-using var incoming = await listener.AcceptTcpClientAsync();
-Console.WriteLine($"Подключился к пиру.");
+TcpClient server = new TcpClient();
+await server.ConnectAsync(ip, server_port);
+Console.WriteLine($"Подключился к серверу.");
 
-using var send_stream = outgoing.GetStream();
-using var recv_stream = incoming.GetStream();
 
-// === Обмен именами ===
-
-Console.Write("Введите ваше имя: ");
-
-await send_data(send_stream);
-
-var peer_name = await request_data(recv_stream);
-
-Console.WriteLine($"Мой собеседник: {peer_name}");
-
-Console.WriteLine($"Пишите сообщения (exit — выход).\n");
+// Отправка на сервер имени и порта
+string registration = $"{name}|{port}";
+var stream = server.GetStream();
+await send_data(stream, registration);
 
 // === Чат ===
 
-async Task ReadMessages()
+Task readTask = Task.Run(async () =>
 {
-    var chatBuffer = new byte[1024];
-    while (true)
+    while (server.Connected)
     {
-        string msg = await request_data(recv_stream);
-
-        if (string.IsNullOrEmpty(msg))
+        try
         {
-            Console.WriteLine("Собеседник отключился.");
+            string message = await request_data(stream);
+
+            if (string.IsNullOrEmpty(message))
+            {
+                Console.WriteLine("Соединение с сервером разорвано");
+                break;
+            }
+            if (message.StartsWith("new | "))
+            {
+                // Сообщение о новом пользователе
+                Console.WriteLine($"\n[СИСТЕМА]: {message}");
+            }
+            else
+            {
+                // Обычное сообщение от пользователя
+                Console.WriteLine($"\n{message}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при получении сообщения: {ex.Message}");
             break;
         }
+    }
+});
 
-        Console.WriteLine($"[{peer_name}]: {msg}");
+while (server.Connected)
+{
+    string message = Console.ReadLine() ?? "";
+
+    if (message.ToLower() == "exit")
+    {
+        Console.WriteLine("Выход...");
+        break;
+    }
+
+    if (string.IsNullOrEmpty(message))
+    {
+        continue;
+    }
+
+    try
+    {
+        await send_data(stream, message);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Ошибка отправки сообщения: {ex.Message}");
+        break;
     }
 }
 
-ReadMessages();
-
-while (true)
-{
-    string msg = await send_data(send_stream);
-    if (string.IsNullOrEmpty(msg)) continue;
-    if (msg == "exit") break;
-}
-
-Console.WriteLine($"Выход");
+server.Close();
+listener.Stop();
+Console.WriteLine("Соединение закрыто");
