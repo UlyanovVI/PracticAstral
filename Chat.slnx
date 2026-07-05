@@ -1,5 +1,3 @@
 <Solution>
   <Project Path="PeerA/PeerA.csproj" />
-  <Project Path="PeerB/PeerB.csproj" />
-  <Project Path="Server/Server.csproj" />
 </Solution>
