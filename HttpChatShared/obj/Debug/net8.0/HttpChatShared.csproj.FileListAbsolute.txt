@@ -1,0 +1,11 @@
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\bin\Debug\net8.0\HttpChatShared.deps.json
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\bin\Debug\net8.0\HttpChatShared.dll
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\bin\Debug\net8.0\HttpChatShared.pdb
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.AssemblyInfoInputs.cache
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.AssemblyInfo.cs
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.csproj.CoreCompileInputs.cache
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.dll
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\refint\HttpChatShared.dll
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\HttpChatShared.pdb
+C:\Users\UlyanovVI\HttpChatSolution\HttpChatShared\obj\Debug\net8.0\ref\HttpChatShared.dll

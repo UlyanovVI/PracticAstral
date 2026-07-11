@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="HttpChatClient/HttpChatClient.csproj" />
+  <Project Path="HttpChatServer/HttpChatServer.csproj" />
+  <Project Path="HttpChatShared/HttpChatShared.csproj" />
+</Solution>
